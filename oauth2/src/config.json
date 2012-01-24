@@ -1,0 +1,16 @@
+{
+	"uuid": "exampleoauth2",
+	"name": "OAuth2.0 Example",
+	"author": "Trigger",
+	"url" : "http://trigger.io",
+	"version": "0.1",
+	"platform_version": "default",
+	"description": "OAuth 2 example.",
+	"permissions": [  ],
+	"background_files": [  ],
+	"activations": [
+	],
+	"logging": {
+		"level": "DEBUG"
+	}
+}

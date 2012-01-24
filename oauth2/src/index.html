@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test Runner</title>
+		<script src="jquery.min.js"></script>
+		<script>
+		var go = function () {
+			$('#results').html('Loading...');
+			forge.tabs.openWithOptions({
+				url: 'https://accounts.google.com/o/oauth2/auth?response_type=token&client_id=804807881725.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&redirect_uri=https%3A%2F%2Ftrigger.io%2Foauth2callback',
+				pattern: 'https://trigger.io/oauth2callback*'
+			}, function (data) {
+				// First, parse the query string
+				var params = {}, queryString = data.url.substring(data.url.indexOf('#')+1),
+				    regex = /([^&=]+)=([^&]*)/g, m;
+				while (m = regex.exec(queryString)) {
+					params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+				}
+				
+				forge.request.ajax({
+					url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token='+params['access_token'],
+					dataType: 'json',
+					success: function (data) {
+						$('#results').html('<div><img src="'+data.picture+'"><br>Name: '+data.name+'<br>Email: '+data.email+'<br>Gender: '+data.gender+'</div>');
+					},
+					error: function (error) {
+						alert("Error");
+					}
+				});
+			});
+		};
+		</script>
+	</head>
+	<body>
+		<h1>Google OAuth 2 example</h1>
+		<div id="results"><a href="#" onclick="go()">Load details</a></div>
+	</body>
+</html>
