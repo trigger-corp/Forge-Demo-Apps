@@ -1,0 +1,16 @@
+{
+	"uuid": "examplefacebookauth",
+	"name": "Facebook Auth Example",
+	"author": "Trigger",
+	"url" : "http://trigger.io",
+	"version": "0.1",
+	"platform_version": "default",
+	"description": "Facebook authentication example.",
+	"permissions": [  ],
+	"background_files": [  ],
+	"activations": [
+	],
+	"logging": {
+		"level": "DEBUG"
+	}
+}
