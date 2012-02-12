@@ -3,37 +3,7 @@
 	<head>
 		<title>Test Runner</title>
 		<script src="jquery.min.js"></script>
-		<script>
-		var go = function () {
-			$('#results').html('Loading...');
-			// start facebook authentication process
-			// the "fb319333711443283" scheme is a special Facebook feature, where
-			// a successful OAuth handshake is allowed to redirect to a fb+APP_ID scheme URL
-			// "pattern" is a Match Pattern for the URL we're waiting for
-			// when the opened modal view's URL matches pattern, the view is closed and the callback is invoked
-			forge.tabs.openWithOptions({
-				url: 'https://www.facebook.com/dialog/oauth?client_id=319333711443283&redirect_uri=fb319333711443283://authorize&display=touch&response_type=token',
-				pattern: 'fb319333711443283://authorize/*'
-			}, function (data) {
-				// we are now at a URL matching the pattern given above, i.e. fb319333711443283://authorize/...
-				// now we can pull out the Facebook authentication data from the URL query string
-				var params = {}, queryString = data.url.substring(data.url.indexOf('#')+1),
-				    regex = /([^&=]+)=([^&]*)/g, m;
-				while (m = regex.exec(queryString)) {
-					params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-				}
-				
-				// all authenticated - grab data for the current user
-				forge.request.ajax({
-					url: 'https://graph.facebook.com/me?access_token='+params['access_token'],
-					dataType: 'json',
-					success: function (data) {
-						$('#results').html('<div>Name: '+data.name+'<br>Email: '+data.email+'<br>Gender: '+data.gender+'<br>Link: <a href="#" onclick="forge.tabs.open(\''+data.link+'\')">'+data.link+'</a></div>');
-					}
-				});
-			});
-		};
-		</script>
+		<script src="fb.js"></script>
 	</head>
 	<body>
 		<h1>Facebook authentication example</h1>
