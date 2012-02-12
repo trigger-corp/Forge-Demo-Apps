@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>fb.js</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  
+  <div class='section'>
+    <div class='docs'><h1>fb.js</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <p>For overall Forge documentation, see <a href="http://docs.trigger.io/">http://docs.trigger.io/</a></p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">go</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div><div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>We assume you already have a Facebook app with ID "319333711443283"</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#results&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s1">&#39;Loading...&#39;</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div><div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>This URL is where Facebook will redirect us back to once authentication is complete.
+Using <code>fb319333711443283</code> as a scheme is a Facebook feature, where a successful
+OAuth handshake is allowed to redirect to a <code>fb+APP_ID</code> scheme URL</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">redirectURI</span> <span class="o">=</span> <span class="s2">&quot;fb319333711443283://authorize&quot;</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div><div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>See the <a href="http://developers.facebook.com/docs/authentication/">Facebook documentation</a> for how to
+construct this URL.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">authURL</span> <span class="o">=</span> <span class="s1">&#39;https://www.facebook.com/dialog/oauth?&#39;</span> <span class="o">+</span>
+    <span class="s1">&#39;client_id=319333711443283&amp;&#39;</span> <span class="o">+</span>
+    <span class="s1">&#39;redirect_uri=&#39;</span> <span class="o">+</span> <span class="nx">redirectURI</span> <span class="o">+</span> <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span>
+    <span class="s1">&#39;display=touch&amp;response_type=token&#39;</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div><div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p><code>pattern</code> is a <a href="http://code.google.com/chrome/extensions/match_patterns.html">Match Pattern</a>
+for the URL we're waiting for which signals the completion of OAuth handshake.
+When the opened modal view's URL matches pattern, the view is closed and the callback is invoked.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">pattern</span> <span class="o">=</span> <span class="s1">&#39;fb319333711443283://authorize/*&#39;</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div><div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>This callback will be invoked when the handshake is complete.
+The window's URL will now match <code>pattern</code>, defined above, i.e. <code>fb319333711443283://authorize/...</code></p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">authenticationComplete</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">params</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="nx">queryString</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+        <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/([^&amp;=]+)=([^&amp;]*)/g</span><span class="p">,</span>
+        <span class="nx">m</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div><div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>We can pull out the Facebook authentication data from the URL query string</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">while</span> <span class="p">(</span><span class="nx">m</span> <span class="o">=</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">queryString</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">params</span><span class="p">[</span><span class="nb">decodeURIComponent</span><span class="p">(</span><span class="nx">m</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="o">=</span> <span class="nb">decodeURIComponent</span><span class="p">(</span><span class="nx">m</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">getCurrentUserDetails</span><span class="p">(</span><span class="nx">params</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kd">var</span> <span class="nx">getCurrentUserDetails</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div><div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>forge.request.ajax lets us break cross-domain restrictions</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">forge</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;https://graph.facebook.com/me?access_token=&#39;</span><span class="o">+</span><span class="nx">params</span><span class="p">[</span><span class="s1">&#39;access_token&#39;</span><span class="p">],</span>
+      <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+      <span class="nx">success</span><span class="o">:</span> <span class="nx">showUserDetails</span>
+    <span class="p">});</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div><div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>Display some of the authenticated user's Facebook details</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">showUserDetails</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#results&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span>
+        <span class="s1">&#39;&lt;div&gt;Name: &#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span>
+        <span class="s1">&#39;&lt;br&gt;Email: &#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">email</span> <span class="o">+</span>
+        <span class="s1">&#39;&lt;br&gt;Gender: &#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">gender</span> <span class="o">+</span>
+        <span class="s1">&#39;&lt;br&gt;Link: &lt;a href=&quot;#&quot; onclick=&quot;forge.tabs.open(\&#39;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">link</span> <span class="o">+</span> <span class="s1">&#39;\&#39;)&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">link</span> <span class="o">+</span> <span class="s1">&#39;&lt;/a&gt;&#39;</span> <span class="o">+</span>
+        <span class="s1">&#39;&lt;/div&gt;&#39;</span>
+    <span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div><div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Open the Facebook authentication dialog</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="nx">forge</span><span class="p">.</span><span class="nx">tabs</span><span class="p">.</span><span class="nx">openWithOptions</span><span class="p">({</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="nx">authURL</span><span class="p">,</span>
+    <span class="nx">pattern</span><span class="o">:</span> <span class="nx">pattern</span>
+  <span class="p">},</span> <span class="nx">authenticationComplete</span><span class="p">);</span>
+<span class="p">};</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
