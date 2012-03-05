@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			var getImage = function () {
+				// Select an image and return with a maximum width and height of 300px
+				forge.file.getImage({width: 300, height: 300}, function (file) {
+					// Get a URL to the returned file object which can be used from the local webview.
+					forge.file.URL(file, function (url) {
+						document.getElementById('img').src = url;
+					})
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<h1 onclick="getImage()">Tap to load image</h1>
+		<img src="" id="img">
+	</body>
+</html>

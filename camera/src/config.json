@@ -1,0 +1,15 @@
+{
+	"name": "Camera example",
+	"author": "Trigger",
+	"url" : "https://trigger.io/",
+	"version": "0.1",
+	"platform_version": "default",
+	"description": "Quick demo of the Forge camera API.",
+	"permissions": [  ],
+	"background_files": [  ],
+	"activations": [
+	],
+	"logging": {
+		"level": "DEBUG"
+	}
+}
