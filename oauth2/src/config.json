@@ -1,16 +1,27 @@
 {
-	"uuid": "exampleoauth2",
-	"name": "OAuth2.0 Example",
-	"author": "Trigger",
-	"url" : "http://trigger.io",
-	"version": "0.1",
-	"platform_version": "default",
-	"description": "OAuth 2 example.",
-	"permissions": [  ],
-	"background_files": [  ],
-	"activations": [
-	],
-	"logging": {
-		"level": "DEBUG"
-	}
+	"author": "Trigger", 
+	"config_version": "2", 
+	"description": "OAuth 2 example.", 
+	"modules": {
+		"contact": true, 
+		"event": true, 
+		"file": true, 
+		"geolocation": true, 
+		"is": true, 
+		"logging": {
+			"level": "DEBUG"
+		}, 
+		"message": true, 
+		"notification": true, 
+		"prefs": true, 
+		"request": {
+			"permissions": []
+		}, 
+		"sms": true, 
+		"tabs": true, 
+		"tools": true
+	}, 
+	"name": "OAuth2.0 Example", 
+	"platform_version": "v1.3", 
+	"version": "0.1"
 }
