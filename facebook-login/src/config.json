@@ -1,27 +1,28 @@
 {
-	"author": "Trigger", 
+	"author": "connor@trigger.io", 
 	"config_version": "2", 
-	"description": "Facebook authentication example.", 
+	"description": "Facebook example app", 
 	"modules": {
 		"contact": true, 
-		"event": true, 
+		"facebook": {
+			"appid": "123456789012345"
+		}, 
 		"file": true, 
-		"geolocation": true, 
 		"is": true, 
 		"logging": {
 			"level": "DEBUG"
 		}, 
-		"message": true, 
-		"notification": true, 
+		"media": true, 
 		"prefs": true, 
 		"request": {
-			"permissions": []
+			"permissions": [
+				"http://*/*", 
+				"https://*/*"
+			]
 		}, 
-		"sms": true, 
-		"tabs": true, 
 		"tools": true
 	}, 
-	"name": "Facebook Auth Example", 
-	"platform_version": "v1.3", 
+	"name": "Facebook", 
+	"platform_version": "v1.4", 
 	"version": "0.1"
 }

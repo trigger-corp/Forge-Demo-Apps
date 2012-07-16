@@ -1,12 +1,96 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Test Runner</title>
-		<script src="jquery.min.js"></script>
-		<script src="fb.js"></script>
-	</head>
-	<body>
-		<h1>Facebook authentication example</h1>
-		<div id="results"><a href="#" onclick="go()">Load details</a></div>
-	</body>
+	<title>Hello World!</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css" />
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery.mobile-1.1.0.min.js"></script>
+	<script>
+		function login() {
+			forge.facebook.authorize(function () {
+				$('#state').text("State: Authorized");
+			}, function () {
+				$('#state').text("State: Authorization failed");
+			});
+		}
+		
+		function logout() {
+			forge.facebook.logout(function () {
+				$('#state').text("State: Logged out");
+			}, function () {
+				alert("Error logging out");
+			});
+		}
+		
+		function api_me() {
+			forge.facebook.api('me', function (data) {
+				if (data['first_name']) {
+					$('#results_me').text(data['first_name']+' '+data['last_name']);
+				} else {
+					$('#results_me').text("API call error");
+				}
+			}, function () {
+				$('#results_me').text("API call error");
+			})
+		}
+		
+		function api_trigger() {
+			forge.facebook.api('TriggerCorp/posts', {limit: 1}, function (data) {
+				try {
+					$('#results_trigger').text(data.data[0].story);
+				} catch (e) {
+					$('#results_trigger').text("API call error");
+				}
+			}, function () {
+				$('#results_trigger').text("API call error");
+			})
+		}
+		
+		function ui() {
+			forge.facebook.ui({method: 'feed'}, function () {
+				forge.logging.log("UI success");
+			}, function () {
+				forge.logging.log("UI call error");
+			});
+		}
+		
+		function ui_link() {
+			forge.facebook.ui({
+				method: 'feed',
+				link: 'https://trigger.io'
+			}, function () {
+				forge.logging.log("UI success");
+			}, function () {
+				forge.logging.log("UI call error");
+			});
+		}
+	</script>
+</head>
+<body>
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>Hello Facebook!</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<h2>Authorization</h2>
+		<p id="state">State: Unknown</p>
+		<p><a href="#" data-role="button" onclick="login();">Login</a></p>
+		<p><a href="#" data-role="button" onclick="logout();">Logout</a></p>
+		<h2>Dialog UI</h2>
+		<p><a href="#" data-role="button" onclick="ui();">Post to feed</a></p>
+		<p><a href="#" data-role="button" onclick="ui_link();">Post link to trigger.io</a></p>
+		<h2>Graph API</h2>
+		<p><a href="#" data-role="button" onclick="api_me();">Get users name</a></p>
+		<p id="results_me">Name will appear here</p>
+		<p><a href="#" data-role="button" onclick="api_trigger();">Get latest Trigger.io update</a></p>
+		<p id="results_trigger">Post will appear here</p>
+
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+</body>
 </html>
