@@ -37,7 +37,7 @@
 		function api_trigger() {
 			forge.facebook.api('TriggerCorp/posts', {limit: 1}, function (data) {
 				try {
-					$('#results_trigger').text(data.data[0].story);
+					$('#results_trigger').text(data.data[0].story || data.data[0].name);
 				} catch (e) {
 					$('#results_trigger').text("API call error");
 				}
