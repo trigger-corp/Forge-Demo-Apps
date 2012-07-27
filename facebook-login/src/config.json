@@ -1,6 +1,6 @@
 {
 	"author": "connor@trigger.io", 
-	"config_version": "2", 
+	"config_version": "3", 
 	"description": "Facebook example app", 
 	"modules": {
 		"contact": true, 
